@@ -289,10 +289,10 @@
                                             <variation key="default">
                                                 <mask key="constraints">
                                                     <exclude reference="ffe-ra-VxZ"/>
-                                                    <exclude reference="Wbm-tF-l3N"/>
                                                     <exclude reference="BPo-TO-9lb"/>
-                                                    <exclude reference="YXf-2e-r8W"/>
                                                     <exclude reference="Myp-V3-1oq"/>
+                                                    <exclude reference="Wbm-tF-l3N"/>
+                                                    <exclude reference="YXf-2e-r8W"/>
                                                 </mask>
                                             </variation>
                                         </view>
@@ -320,10 +320,10 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="g83-5v-R2L"/>
                                             <exclude reference="3Lt-sz-zwQ"/>
-                                            <exclude reference="lYL-cG-dyo"/>
+                                            <exclude reference="g83-5v-R2L"/>
                                             <exclude reference="KjT-yN-Xjt"/>
+                                            <exclude reference="lYL-cG-dyo"/>
                                             <exclude reference="lms-iz-gHf"/>
                                         </mask>
                                     </variation>
@@ -471,8 +471,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="dw2-fa-HQC"/>
                                                     <exclude reference="7w4-ob-xHE"/>
+                                                    <exclude reference="dw2-fa-HQC"/>
                                                     <exclude reference="QyO-yz-fVb"/>
                                                 </mask>
                                             </variation>
@@ -488,8 +488,8 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="oL5-1C-5v7"/>
                                             <exclude reference="RCf-g9-xhZ"/>
+                                            <exclude reference="oL5-1C-5v7"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
