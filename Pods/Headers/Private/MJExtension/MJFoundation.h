@@ -1,1 +1,12 @@
-../../../MJExtension/MJExtension/MJFoundation.h
+// 
+// MJFoundation.h
+//
+// IDECodeSnippetIdentifier: EAE24582-39E7-4CC6-A2C4-92B3741EC377
+// IDECodeSnippetLanguage: Xcode.SourceCodeLanguage.Objective-C
+// IDECodeSnippetUserSnippet: 1
+
+#import <Foundation/Foundation.h>
+
+@interface MJFoundation : NSObject
++ (BOOL)isClassFromFoundation:(Class)c;
+@end

@@ -1,10 +1,9 @@
+// 
+// BaseCollectionViewController.m
 //
-//  BaseCollectionViewController.m
-//  MeiTuanDemo
-//
-//  Created by lmj  on 15/12/4.
-//  Copyright (c) 2015年 lmj . All rights reserved.
-//
+// IDECodeSnippetIdentifier: FC36B835-DA6A-4964-9A96-68D8E98BE14D
+// IDECodeSnippetLanguage: Xcode.SourceCodeLanguage.Objective-C
+// IDECodeSnippetUserSnippet: 1
 
 #import "BaseCollectionViewController.h"
 #import "MJRefresh.h"

@@ -1,10 +1,9 @@
+// 
+// BaseCollectionViewController.h
 //
-//  BaseCollectionViewController.h
-//  MeiTuanDemo
-//
-//  Created by lmj  on 15/12/4.
-//  Copyright (c) 2015年 lmj . All rights reserved.
-//
+// IDECodeSnippetIdentifier: 12A10ACA-42D0-4995-8C48-2E6915F552B9
+// IDECodeSnippetLanguage: Xcode.SourceCodeLanguage.Objective-C
+// IDECodeSnippetUserSnippet: 1
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
