@@ -1,43 +1,21 @@
 // 
-// NSString+MJExtension.h
+// MJRefreshAutoStateFooter.h
 //
 // IDECodeSnippetCompletionScopes: [All]
-// IDECodeSnippetIdentifier: 22134B27-CD3D-4833-BC42-E70C1718EDAF
+// IDECodeSnippetIdentifier: C05F6FC6-311A-420E-BD7F-2AEC883C9C16
 // IDECodeSnippetLanguage: Xcode.SourceCodeLanguage.Objective-C
 // IDECodeSnippetUserSnippet: 1
 // IDECodeSnippetVersion: 2
 
-#import <Foundation/Foundation.h>
-#import "MJExtensionConst.h"
+#import "MJRefreshAutoFooter.h"
 
-@interface NSString (MJExtension)
-/**
- *  驼峰转下划线（loveYou -> love_you）
- */
-- (NSString *)mj_underlineFromCamel;
-/**
- *  下划线转驼峰（love_you -> loveYou）
- */
-- (NSString *)mj_camelFromUnderline;
-/**
- * 首字母变大写
- */
-- (NSString *)mj_firstCharUpper;
-/**
- * 首字母变小写
- */
-- (NSString *)mj_firstCharLower;
+@interface MJRefreshAutoStateFooter : MJRefreshAutoFooter
+/** 显示刷新状态的label */
+@property (weak, nonatomic, readonly) UILabel *stateLabel;
 
-- (BOOL)mj_isPureInt;
+/** 设置state状态下的文字 */
+- (void)setTitle:(NSString *)title forState:(MJRefreshState)state;
 
-- (NSURL *)mj_url;
-@end
-
-@interface NSString (MJExtensionDeprecated_v_2_5_16)
-- (NSString *)underlineFromCamel MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (NSString *)camelFromUnderline MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (NSString *)firstCharUpper MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (NSString *)firstCharLower MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (BOOL)isPureInt MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
-- (NSURL *)url MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
+/** 隐藏刷新状态的文字 */
+@property (assign, nonatomic, getter=isRefreshingTitleHidden) BOOL refreshingTitleHidden;
 @end
