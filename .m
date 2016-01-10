@@ -1,91 +1,80 @@
 // 
-// NSObject+MJClass.h
+// NSObject+MJProperty.h
 //
 // IDECodeSnippetCompletionScopes: [All]
-// IDECodeSnippetIdentifier: 57819A09-A820-4E4A-8A45-0886BF64FF1E
+// IDECodeSnippetIdentifier: 1EA80E5D-CBD5-4200-A1BB-5D61D428240F
 // IDECodeSnippetLanguage: Xcode.SourceCodeLanguage.Objective-C
 // IDECodeSnippetUserSnippet: 1
 // IDECodeSnippetVersion: 2
 
 #import <Foundation/Foundation.h>
+#import "MJExtensionConst.h"
+
+@class MJProperty;
 
 /**
- *  遍历所有类的block（父类）
- */
-typedef void (^MJClassesEnumeration)(Class c, BOOL *stop);
-
-/** 这个数组中的属性名才会进行字典和模型的转换 */
-typedef NSArray * (^MJAllowedPropertyNames)();
-/** 这个数组中的属性名才会进行归档 */
-typedef NSArray * (^MJAllowedCodingPropertyNames)();
-
-/** 这个数组中的属性名将会被忽略：不进行字典和模型的转换 */
-typedef NSArray * (^MJIgnoredPropertyNames)();
-/** 这个数组中的属性名将会被忽略：不进行归档 */
-typedef NSArray * (^MJIgnoredCodingPropertyNames)();
-
-/**
- * 类相关的扩展
- */
-@interface NSObject (MJClass)
-/**
- *  遍历所有的类
- */
-+ (void)mj_enumerateClasses:(MJClassesEnumeration)enumeration;
-+ (void)mj_enumerateAllClasses:(MJClassesEnumeration)enumeration;
-
-#pragma mark - 属性白名单配置
-/**
- *  这个数组中的属性名才会进行字典和模型的转换
+ *  遍历成员变量用的block
  *
- *  @param allowedPropertyNames          这个数组中的属性名才会进行字典和模型的转换
+ *  @param property 成员的包装对象
+ *  @param stop   YES代表停止遍历，NO代表继续遍历
  */
-+ (void)mj_setupAllowedPropertyNames:(MJAllowedPropertyNames)allowedPropertyNames;
+typedef void (^MJPropertiesEnumeration)(MJProperty *property, BOOL *stop);
+
+/** 将属性名换为其他key去字典中取值 */
+typedef NSDictionary * (^MJReplacedKeyFromPropertyName)();
+typedef NSString * (^MJReplacedKeyFromPropertyName121)(NSString *propertyName);
+/** 数组中需要转换的模型类 */
+typedef NSDictionary * (^MJObjectClassInArray)();
+/** 用于过滤字典中的值 */
+typedef id (^MJNewValueFromOldValue)(id object, id oldValue, MJProperty *property);
 
 /**
- *  这个数组中的属性名才会进行字典和模型的转换
+ * 成员属性相关的扩展
  */
-+ (NSMutableArray *)mj_totalAllowedPropertyNames;
-
-#pragma mark - 属性黑名单配置
+@interface NSObject (MJProperty)
+#pragma mark - 遍历
 /**
- *  这个数组中的属性名将会被忽略：不进行字典和模型的转换
+ *  遍历所有的成员
+ */
++ (void)mj_enumerateProperties:(MJPropertiesEnumeration)enumeration;
+
+#pragma mark - 新值配置
+/**
+ *  用于过滤字典中的值
  *
- *  @param ignoredPropertyNames          这个数组中的属性名将会被忽略：不进行字典和模型的转换
+ *  @param newValueFormOldValue 用于过滤字典中的值
  */
-+ (void)mj_setupIgnoredPropertyNames:(MJIgnoredPropertyNames)ignoredPropertyNames;
++ (void)mj_setupNewValueFromOldValue:(MJNewValueFromOldValue)newValueFormOldValue;
++ (id)mj_getNewValueFromObject:(__unsafe_unretained id)object oldValue:(__unsafe_unretained id)oldValue property:(__unsafe_unretained MJProperty *)property;
 
+#pragma mark - key配置
 /**
- *  这个数组中的属性名将会被忽略：不进行字典和模型的转换
- */
-+ (NSMutableArray *)mj_totalIgnoredPropertyNames;
-
-#pragma mark - 归档属性白名单配置
-/**
- *  这个数组中的属性名才会进行归档
+ *  将属性名换为其他key去字典中取值
  *
- *  @param allowedCodingPropertyNames          这个数组中的属性名才会进行归档
+ *  @param replacedKeyFromPropertyName 将属性名换为其他key去字典中取值
  */
-+ (void)mj_setupAllowedCodingPropertyNames:(MJAllowedCodingPropertyNames)allowedCodingPropertyNames;
-
++ (void)mj_setupReplacedKeyFromPropertyName:(MJReplacedKeyFromPropertyName)replacedKeyFromPropertyName;
 /**
- *  这个数组中的属性名才会进行字典和模型的转换
- */
-+ (NSMutableArray *)mj_totalAllowedCodingPropertyNames;
-
-#pragma mark - 归档属性黑名单配置
-/**
- *  这个数组中的属性名将会被忽略：不进行归档
+ *  将属性名换为其他key去字典中取值
  *
- *  @param ignoredCodingPropertyNames          这个数组中的属性名将会被忽略：不进行归档
+ *  @param replacedKeyFromPropertyName121 将属性名换为其他key去字典中取值
  */
-+ (void)mj_setupIgnoredCodingPropertyNames:(MJIgnoredCodingPropertyNames)ignoredCodingPropertyNames;
++ (void)mj_setupReplacedKeyFromPropertyName121:(MJReplacedKeyFromPropertyName121)replacedKeyFromPropertyName121;
 
+#pragma mark - array model class配置
 /**
- *  这个数组中的属性名将会被忽略：不进行归档
+ *  数组中需要转换的模型类
+ *
+ *  @param objectClassInArray          数组中需要转换的模型类
  */
-+ (NSMutableArray *)mj_totalIgnoredCodingPropertyNames;
++ (void)mj_setupObjectClassInArray:(MJObjectClassInArray)objectClassInArray;
+@end
 
-#pragma mark - 内部使用
-+ (void)mj_setupBlockReturnValue:(id (^)())block key:(const char *)key;
+@interface NSObject (MJPropertyDeprecated_v_2_5_16)
++ (void)enumerateProperties:(MJPropertiesEnumeration)enumeration MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
++ (void)setupNewValueFromOldValue:(MJNewValueFromOldValue)newValueFormOldValue MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
++ (id)getNewValueFromObject:(__unsafe_unretained id)object oldValue:(__unsafe_unretained id)oldValue property:(__unsafe_unretained MJProperty *)property MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
++ (void)setupReplacedKeyFromPropertyName:(MJReplacedKeyFromPropertyName)replacedKeyFromPropertyName MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
++ (void)setupReplacedKeyFromPropertyName121:(MJReplacedKeyFromPropertyName121)replacedKeyFromPropertyName121 MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
++ (void)setupObjectClassInArray:(MJObjectClassInArray)objectClassInArray MJExtensionDeprecated("请在方法名前面加上mj_前缀，使用mj_***");
 @end
