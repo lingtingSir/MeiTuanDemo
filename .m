@@ -1,15 +1,16 @@
 // 
-// MJRefreshAutoNormalFooter.h
+// BaseCollectionViewController.h
 //
 // IDECodeSnippetCompletionScopes: [All]
-// IDECodeSnippetIdentifier: 6CBDEB3D-ADBC-4D97-B211-0DEAEEAD70ED
+// IDECodeSnippetIdentifier: 12A10ACA-42D0-4995-8C48-2E6915F552B9
 // IDECodeSnippetLanguage: Xcode.SourceCodeLanguage.Objective-C
 // IDECodeSnippetUserSnippet: 1
 // IDECodeSnippetVersion: 2
 
-#import "MJRefreshAutoStateFooter.h"
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+@interface BaseCollectionViewController : UICollectionViewController
 
-@interface MJRefreshAutoNormalFooter : MJRefreshAutoStateFooter
-/** 菊花的样式 */
-@property (assign, nonatomic) UIActivityIndicatorViewStyle activityIndicatorViewStyle;
+@property (nonatomic,assign) BOOL shouldInitPullToRefresh;
+
 @end
