@@ -1,21 +1,35 @@
 // 
-// MJRefreshAutoFooter.h
+// MJDictionaryCache.h
 //
 // IDECodeSnippetCompletionScopes: [All]
-// IDECodeSnippetIdentifier: D96CA0D1-AC9F-432F-B4D9-49BCF1D5F9A7
+// IDECodeSnippetIdentifier: 00A5ED1F-1C51-43B6-B88B-8EB5E1027C23
 // IDECodeSnippetLanguage: Xcode.SourceCodeLanguage.Objective-C
 // IDECodeSnippetUserSnippet: 1
 // IDECodeSnippetVersion: 2
 
-#import "MJRefreshFooter.h"
+#import <Foundation/Foundation.h>
 
-@interface MJRefreshAutoFooter : MJRefreshFooter
-/** 是否自动刷新(默认为YES) */
-@property (assign, nonatomic, getter=isAutomaticallyRefresh) BOOL automaticallyRefresh;
+@interface MJDictionaryCache : NSObject
+/**
+ *  缓存数据
+ *
+ *  @param dictId 字典标识
+ *
+ *  @return 缓存的字典
+ */
++ (id)setObject:(id)object forKey:(id<NSCopying>)key forDictId:(const void *)dictId;
 
-/** 当底部控件出现多少时就自动刷新(默认为1.0，也就是底部控件完全出现时，才会自动刷新) */
-@property (assign, nonatomic) CGFloat appearencePercentTriggerAutoRefresh MJRefreshDeprecated("请使用automaticallyChangeAlpha属性");
+/**
+ *  获得缓存的数据
+ *
+ *  @param dictId 字典标识
+ */
++ (id)objectForKey:(id<NSCopying>)key forDictId:(const void *)dictId;
 
-/** 当底部控件出现多少时就自动刷新(默认为1.0，也就是底部控件完全出现时，才会自动刷新) */
-@property (assign, nonatomic) CGFloat triggerAutomaticallyRefreshPercent;
+/**
+ *  获得缓存的字典
+ *
+ *  @param dictId 字典标识
+ */
++ (id)dictWithDictId:(const void *)dictId;
 @end
