@@ -1,56 +1,40 @@
 // 
-// NSObject+MJCoding.h
+// MJPropertyType.h
 //
 // IDECodeSnippetCompletionScopes: [All]
-// IDECodeSnippetIdentifier: 531585E1-E338-4C3A-9734-D19ABA2C9E18
+// IDECodeSnippetIdentifier: F4CE09DF-EE01-4794-97FE-2AD294D2578D
 // IDECodeSnippetLanguage: Xcode.SourceCodeLanguage.Objective-C
 // IDECodeSnippetUserSnippet: 1
 // IDECodeSnippetVersion: 2
 
 #import <Foundation/Foundation.h>
-#import "MJExtensionConst.h"
 
 /**
- *  Codeing协议
+ *  包装一种类型
  */
-@protocol MJCoding <NSObject>
-@optional
+@interface MJPropertyType : NSObject
+/** 类型标识符 */
+@property (nonatomic, copy) NSString *code;
+
+/** 是否为id类型 */
+@property (nonatomic, readonly, getter=isIdType) BOOL idType;
+
+/** 是否为基本数字类型：int、float等 */
+@property (nonatomic, readonly, getter=isNumberType) BOOL numberType;
+
+/** 是否为BOOL类型 */
+@property (nonatomic, readonly, getter=isBoolType) BOOL boolType;
+
+/** 对象类型（如果是基本数据类型，此值为nil） */
+@property (nonatomic, readonly) Class typeClass;
+
+/** 类型是否来自于Foundation框架，比如NSString、NSArray */
+@property (nonatomic, readonly, getter = isFromFoundation) BOOL fromFoundation;
+/** 类型是否不支持KVC */
+@property (nonatomic, readonly, getter = isKVCDisabled) BOOL KVCDisabled;
+
 /**
- *  这个数组中的属性名才会进行归档
+ *  获得缓存的类型对象
  */
-+ (NSArray *)mj_allowedCodingPropertyNames;
-/**
- *  这个数组中的属性名将会被忽略：不进行归档
- */
-+ (NSArray *)mj_ignoredCodingPropertyNames;
++ (instancetype)cachedTypeWithCode:(NSString *)code;
 @end
-
-@interface NSObject (MJCoding) <MJCoding>
-/**
- *  解码（从文件中解析对象）
- */
-- (void)mj_decode:(NSCoder *)decoder;
-/**
- *  编码（将对象写入文件中）
- */
-- (void)mj_encode:(NSCoder *)encoder;
-@end
-
-/**
- 归档的实现
- */
-#define MJCodingImplementation \
-- (id)initWithCoder:(NSCoder *)decoder \
-{ \
-if (self = [super init]) { \
-[self mj_decode:decoder]; \
-} \
-return self; \
-} \
-\
-- (void)encodeWithCoder:(NSCoder *)encoder \
-{ \
-[self mj_encode:encoder]; \
-}
-
-#define MJExtensionCodingImplementation MJCodingImplementation
