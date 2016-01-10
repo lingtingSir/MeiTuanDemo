@@ -2,49 +2,78 @@
 // 
 //
 // IDECodeSnippetCompletionScopes: [All]
-// IDECodeSnippetIdentifier: 4FE3188F-7C72-40D6-ADE6-F24E1B2A002A
+// IDECodeSnippetIdentifier: 210B12ED-372A-442E-8497-95F9F6802B2D
 // IDECodeSnippetLanguage: Xcode.SourceCodeLanguage.Objective-C
 // IDECodeSnippetUserSnippet: 1
 // IDECodeSnippetVersion: 2
 
-#import <Foundation/Foundation.h>
-
-#import <Availability.h>
+#import "UIRefreshControl+AFNetworking.h"
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 
-#import <UIKit/UIKit.h>
+#import "AFHTTPRequestOperation.h"
 
-@class AFURLConnectionOperation;
-
-/**
- This category adds methods to the UIKit framework's `UIRefreshControl` class. The methods in this category provide support for automatically begining and ending refreshing depending on the loading state of a request operation or session task.
- */
-@interface UIRefreshControl (AFNetworking)
-
-///-----------------------------------
-/// @name Refreshing for Session Tasks
-///-----------------------------------
-
-/**
- Binds the refreshing state to the state of the specified task.
- 
- @param task The task. If `nil`, automatic updating from any previously specified operation will be disabled.
- */
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-- (void)setRefreshingWithStateOfTask:(NSURLSessionTask *)task;
+#import "AFURLSessionManager.h"
 #endif
 
-///----------------------------------------
-/// @name Refreshing for Request Operations
-///----------------------------------------
+@implementation UIRefreshControl (AFNetworking)
 
-/**
- Binds the refreshing state to the execution state of the specified operation.
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+- (void)setRefreshingWithStateOfTask:(NSURLSessionTask *)task {
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
- @param operation The operation. If `nil`, automatic updating from any previously specified operation will be disabled.
- */
-- (void)setRefreshingWithStateOfOperation:(AFURLConnectionOperation *)operation;
+    [notificationCenter removeObserver:self name:AFNetworkingTaskDidResumeNotification object:nil];
+    [notificationCenter removeObserver:self name:AFNetworkingTaskDidSuspendNotification object:nil];
+    [notificationCenter removeObserver:self name:AFNetworkingTaskDidCompleteNotification object:nil];
+
+    if (task) {
+        if (task.state == NSURLSessionTaskStateRunning) {
+            [self beginRefreshing];
+
+            [notificationCenter addObserver:self selector:@selector(af_beginRefreshing) name:AFNetworkingTaskDidResumeNotification object:task];
+            [notificationCenter addObserver:self selector:@selector(af_endRefreshing) name:AFNetworkingTaskDidCompleteNotification object:task];
+            [notificationCenter addObserver:self selector:@selector(af_endRefreshing) name:AFNetworkingTaskDidSuspendNotification object:task];
+        } else {
+            [self endRefreshing];
+        }
+    }
+}
+#endif
+
+- (void)setRefreshingWithStateOfOperation:(AFURLConnectionOperation *)operation {
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+
+    [notificationCenter removeObserver:self name:AFNetworkingOperationDidStartNotification object:nil];
+    [notificationCenter removeObserver:self name:AFNetworkingOperationDidFinishNotification object:nil];
+
+    if (operation) {
+        if (![operation isFinished]) {
+            if ([operation isExecuting]) {
+                [self beginRefreshing];
+            } else {
+                [self endRefreshing];
+            }
+
+            [notificationCenter addObserver:self selector:@selector(af_beginRefreshing) name:AFNetworkingOperationDidStartNotification object:operation];
+            [notificationCenter addObserver:self selector:@selector(af_endRefreshing) name:AFNetworkingOperationDidFinishNotification object:operation];
+        }
+    }
+}
+
+#pragma mark -
+
+- (void)af_beginRefreshing {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self beginRefreshing];
+    });
+}
+
+- (void)af_endRefreshing {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self endRefreshing];
+    });
+}
 
 @end
 
